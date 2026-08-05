@@ -1,5 +1,4 @@
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthHeader from "../components/auth/AuthHeader";
@@ -7,8 +6,63 @@ import AuthInput from "../components/auth/AuthInput";
 import PasswordInput from "../components/auth/PasswordInput";
 import AuthButton from "../components/auth/AuthButton";
 import AuthFooter from "../components/auth/AuthFooter";
+import { registerUser } from "../services/authService";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { fullName, email, password, confirmPassword } = formData;
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await registerUser({
+        name: fullName,
+        email,
+        password,
+      });
+
+      // toast.success("Account created successfully!");
+
+      setFormData({
+        fullName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
+
+      toast.error(error.response?.data?.message || "Failed to create account.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AuthLayout>
       <AuthHeader
@@ -17,12 +71,15 @@ const Register = () => {
         subtitle="Create your account to get started."
       />
 
-      <form className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <AuthInput
           label="Full Name"
           type="text"
           placeholder="John Doe"
           icon={<FaUser className="text-gray-400" />}
+          value={formData.fullName}
+          onChange={handleChange}
+          name="fullName"
         />
 
         <AuthInput
@@ -30,21 +87,30 @@ const Register = () => {
           type="email"
           placeholder="john@example.com"
           icon={<FaEnvelope className="text-gray-400" />}
+          value={formData.email}
+          onChange={handleChange}
+          name="email"
         />
 
         <PasswordInput
           label="Password"
           placeholder="Enter password"
           icon={<FaLock className="text-gray-400" />}
+          value={formData.password}
+          onChange={handleChange}
+          name="password"
         />
 
         <PasswordInput
           label="Confirm Password"
           placeholder="Confirm password"
           icon={<FaLock className="text-gray-400" />}
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          name="confirmPassword"
         />
 
-        <AuthButton>Create Account</AuthButton>
+        <AuthButton loading={loading}>Create Account</AuthButton>
       </form>
 
       <AuthFooter

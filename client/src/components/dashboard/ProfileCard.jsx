@@ -13,7 +13,7 @@ const ProfileCard = ({ user }) => {
       <div className="flex flex-col items-center text-center">
         <FaUserCircle className="mb-4 text-8xl text-indigo-600" />
 
-        <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{user?.name}</h2>
 
         <p className="mt-1 text-gray-500">Authenticated User</p>
       </div>
@@ -22,7 +22,7 @@ const ProfileCard = ({ user }) => {
         <UserInfoItem
           icon={<FaEnvelope className="text-xl text-indigo-600" />}
           label="Email"
-          value={user.email}
+          value={user?.email}
         />
 
         <UserInfoItem
@@ -35,7 +35,7 @@ const ProfileCard = ({ user }) => {
         <UserInfoItem
           icon={<FaCalendarAlt className="text-xl text-indigo-600" />}
           label="Joined On"
-          value={user.createdAt}
+          value={user?.createdAt.split("T")[0]}
         />
       </div>
     </div>
