@@ -15,3 +15,7 @@ export const logoutUser = () => {
 export const getProfile = () => {
   return API.get("/profile");
 };
+
+export const refreshToken = () => {
+  return API.post("/refresh-token");
+};

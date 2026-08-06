@@ -9,7 +9,10 @@ const AuthInput = ({
 }) => {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label
+        htmlFor={name}
+        className="mb-2 block text-sm font-medium text-gray-700"
+      >
         {label}
       </label>
 
@@ -23,6 +26,7 @@ const AuthInput = ({
           value={value}
           onChange={onChange}
           className="w-full bg-transparent px-3 py-3 outline-none"
+          required
         />
       </div>
     </div>

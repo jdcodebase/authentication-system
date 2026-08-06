@@ -1,4 +1,8 @@
+import { useContext, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthHeader from "../components/auth/AuthHeader";
@@ -6,10 +10,9 @@ import AuthInput from "../components/auth/AuthInput";
 import PasswordInput from "../components/auth/PasswordInput";
 import AuthButton from "../components/auth/AuthButton";
 import AuthFooter from "../components/auth/AuthFooter";
+
 import { registerUser } from "../services/authService";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -21,12 +24,17 @@ const Register = () => {
   });
   const [loading, setLoading] = useState(false);
 
+  const { checkAuth } = useAuth();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setLoading(true);
 
     const { fullName, email, password, confirmPassword } = formData;
@@ -39,12 +47,12 @@ const Register = () => {
 
     try {
       await registerUser({
-        name: fullName,
-        email,
+        name: fullName.trim(),
+        email: email.trim(),
         password,
       });
 
-      // toast.success("Account created successfully!");
+      await checkAuth();
 
       setFormData({
         fullName: "",

@@ -6,7 +6,7 @@ const UserInfoItem = ({ icon, label, value, valueClassName = "" }) => {
       <div>
         <p className="text-sm text-gray-500">{label}</p>
 
-        <p className={`font-medium ${valueClassName}`}>{value}</p>
+        <p className={`font-medium ${valueClassName}`}>{value || "N/A"}</p>
       </div>
     </div>
   );

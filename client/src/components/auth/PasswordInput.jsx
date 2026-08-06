@@ -6,7 +6,10 @@ const PasswordInput = ({ label, placeholder, icon, value, onChange, name }) => {
 
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label
+        htmlFor={name}
+        className="mb-2 block text-sm font-medium text-gray-700"
+      >
         {label}
       </label>
 
@@ -20,12 +23,13 @@ const PasswordInput = ({ label, placeholder, icon, value, onChange, name }) => {
           value={value}
           onChange={onChange}
           className="w-full bg-transparent px-3 py-3 outline-none"
+          required
         />
 
         <button
           type="button"
           onClick={() => setShowPassword((prev) => !prev)}
-          className="text-gray-500 hover:text-indigo-600"
+          className="text-gray-500 hover:text-indigo-600 select-none"
         >
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>

@@ -35,7 +35,11 @@ const ProfileCard = ({ user }) => {
         <UserInfoItem
           icon={<FaCalendarAlt className="text-xl text-indigo-600" />}
           label="Joined On"
-          value={user?.createdAt.split("T")[0]}
+          value={
+            user?.createdAt
+              ? new Date(user.createdAt).toLocaleDateString()
+              : "N/A"
+          }
         />
       </div>
     </div>

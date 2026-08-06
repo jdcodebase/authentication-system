@@ -1,62 +1,20 @@
+import { useNavigate } from "react-router-dom";
+
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import ProfileCard from "../components/dashboard/ProfileCard";
 import DashboardActions from "../components/dashboard/DashboardActions";
-import { toast } from "react-hot-toast";
-import { getProfile, logoutUser } from "../services/authService";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { user, logout, loading, checkAuth } = useAuth();
+
   const navigate = useNavigate();
 
-  const fetchProfile = async () => {
-    setLoading(true);
-
-    try {
-      const res = await getProfile();
-      setUser(res.data.data);
-    } catch (error) {
-      console.error(error);
-
-      toast.error(error.response?.data?.message || "Failed to load profile.");
-
-      if (error.response?.status === 401) {
-        navigate("/login", { replace: true });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, [navigate]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null;
-  }
-
   const handleLogout = async () => {
-    setLoading(true);
-    try {
-      await logoutUser();
+    await logout();
 
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -66,7 +24,7 @@ const Dashboard = () => {
 
         <ProfileCard user={user} />
 
-        <DashboardActions loading={loading} logout={handleLogout} />
+        <DashboardActions loading={loading} refresh={checkAuth} />
       </div>
     </div>
   );

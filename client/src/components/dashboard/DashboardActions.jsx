@@ -1,24 +1,15 @@
 import { MdRefresh } from "react-icons/md";
-import { FiLogOut } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-const DashboardActions = ({ loading, logout }) => {
-  const navigate = useNavigate();
-
+const DashboardActions = ({ loading, refresh }) => {
   return (
-    <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-      <button className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3 font-semibold text-white transition hover:bg-indigo-700">
-        <MdRefresh size={22} />
-        Refresh Profile
-      </button>
-
+    <div className="mt-8">
       <button
-        className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-500 py-3 font-semibold text-white transition hover:bg-red-600"
-        onClick={logout}
+        onClick={refresh}
+        disabled={loading}
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3 font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-400"
       >
-        <FiLogOut size={20} />
-        {loading ? "Please Wait" : "Logout"}
+        <MdRefresh size={22} />
+        {loading ? "Please wait..." : "Refresh Profile"}
       </button>
     </div>
   );

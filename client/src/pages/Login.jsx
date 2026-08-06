@@ -1,5 +1,9 @@
+import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import { FaEnvelope, FaLock, FaSignInAlt } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthHeader from "../components/auth/AuthHeader";
@@ -7,9 +11,9 @@ import AuthInput from "../components/auth/AuthInput";
 import PasswordInput from "../components/auth/PasswordInput";
 import AuthButton from "../components/auth/AuthButton";
 import AuthFooter from "../components/auth/AuthFooter";
-import { useState } from "react";
+
 import { loginUser } from "../services/authService";
-import { toast } from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,16 +23,26 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const { checkAuth } = useAuth();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setLoading(true);
 
     try {
-      await loginUser(formData);
+      await loginUser({
+        email: formData.email.trim(),
+        password: formData.password,
+      });
+
+      await checkAuth();
 
       setFormData({
         email: "",

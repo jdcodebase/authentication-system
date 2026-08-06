@@ -1,4 +1,3 @@
-import React from "react";
 import { FaShieldAlt, FaCookieBite } from "react-icons/fa";
 import { MdSecurity } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
