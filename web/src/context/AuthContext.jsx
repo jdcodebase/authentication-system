@@ -1,15 +1,35 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 
 import { refreshAccessToken, logoutUser } from "../services/auth.service";
+import {
+  registerAccessTokenGetter,
+  registerAuthFailureHandler,
+} from "../services/api";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [loading, setLoading] = useState(true); // true until initial refresh check completes
+  const [loading, setLoading] = useState(true);
 
-  // On app load: try to silently restore a session via the httpOnly refresh cookie.
+  const accessTokenRef = useRef(null);
+  accessTokenRef.current = accessToken;
+
+  useEffect(() => {
+    registerAccessTokenGetter(() => accessTokenRef.current);
+
+    registerAuthFailureHandler((event) => {
+      if (event.type === "refreshed") {
+        setAccessToken(event.accessToken);
+        if (event.user) setUser(event.user);
+      } else if (event.type === "logout") {
+        setUser(null);
+        setAccessToken(null);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const restoreSession = async () => {
       try {
@@ -17,7 +37,6 @@ export const AuthProvider = ({ children }) => {
         setUser(data.data.user);
         setAccessToken(data.data.accessToken);
       } catch (error) {
-        // No valid session — that's fine, just means the user isn't logged in.
         setUser(null);
         setAccessToken(null);
       } finally {
@@ -28,7 +47,6 @@ export const AuthProvider = ({ children }) => {
     restoreSession();
   }, []);
 
-  // Called by Login/Register pages after their own API call succeeds.
   const setAuth = ({ user: newUser, accessToken: newAccessToken }) => {
     setUser(newUser);
     setAccessToken(newAccessToken);
@@ -38,8 +56,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await logoutUser();
     } catch (error) {
-      // Even if the API call fails, clear local state — user should
-      // always be able to "log out" from the frontend's perspective.
+      // ignore
     } finally {
       setUser(null);
       setAccessToken(null);
@@ -60,8 +77,6 @@ export const AuthProvider = ({ children }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };

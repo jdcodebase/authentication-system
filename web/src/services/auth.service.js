@@ -16,3 +16,8 @@ export const loginUser = (data) => api.post("/auth/login", data);
 export const refreshAccessToken = () => api.post("/auth/refresh-token");
 
 export const logoutUser = () => api.post("/auth/logout");
+
+export const getDevices = () => api.get("/users/devices");
+
+export const revokeDevice = (sessionId) =>
+  api.delete(`/users/devices/${sessionId}`);

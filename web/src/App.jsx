@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicOnlyRoute from "./components/PublicOnlyRoute";
+import DevicesPage from "./pages/DevicesPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             </PublicOnlyRoute>
           }
         />
+
         <Route
           path="/register"
           element={
@@ -30,6 +32,7 @@ const App = () => {
             </PublicOnlyRoute>
           }
         />
+
         <Route
           path="/login"
           element={
@@ -44,6 +47,15 @@ const App = () => {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/devices"
+          element={
+            <ProtectedRoute>
+              <DevicesPage />
             </ProtectedRoute>
           }
         />
