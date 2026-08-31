@@ -74,7 +74,7 @@ export const login = asyncHandler(async (req, res) => {
       expiresAt: refreshExpiresAt,
       lastUsedAt: new Date(),
     },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
+    { upsert: true, returnDocument: "after", setDefaultsOnInsert: true },
   );
 
   const userResponse = {

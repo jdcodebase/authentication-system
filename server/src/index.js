@@ -9,9 +9,12 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    await transporter.verify();
-
-    console.log("Email service is ready.");
+    try {
+      await transporter.verify();
+      console.log("Email service is ready.");
+    } catch (emailError) {
+      console.warn(`Email service unavailable: ${emailError.message}`);
+    }
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
