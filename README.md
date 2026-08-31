@@ -10,7 +10,7 @@ This project demonstrates modern authentication practices used in real-world web
 
 ### Frontend
 
-> https://authentication-system-eta-five.vercel.app/
+> https://authentication-system-three-woad.vercel.app/
 
 ### Backend API
 
