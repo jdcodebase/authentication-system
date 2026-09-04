@@ -6,7 +6,7 @@ import {
   verifyRegistrationOtp,
 } from "../../services/auth.service";
 
-const RegisterStepOtp = ({ email, onSuccess }) => {
+const RegisterStepOtp = ({ formData, onSuccess }) => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [resendTimer, setResendTimer] = useState(60);
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,10 @@ const RegisterStepOtp = ({ email, onSuccess }) => {
     setLoading(true);
 
     try {
-      await sendRegistrationOtp({ email });
+      await sendRegistrationOtp({
+        name: formData.name,
+        email: formData.email,
+      });
       toast.success("OTP resent to your email.");
       setResendTimer(60);
       setOtp(new Array(6).fill(""));
@@ -76,11 +79,14 @@ const RegisterStepOtp = ({ email, onSuccess }) => {
     setLoading(true);
 
     try {
-      const { data } = await verifyRegistrationOtp({ email, otp: code });
+      const { data } = await verifyRegistrationOtp({
+        email: formData.email,
+        otp: code,
+      });
 
-      sessionStorage.setItem("registrationToken", data.data.registrationToken);
-      sessionStorage.setItem("registrationName", data.data.name);
-      sessionStorage.setItem("registrationEmail", data.data.email);
+      localStorage.setItem("registrationToken", data.data.registrationToken);
+      localStorage.setItem("registrationName", data.data.name);
+      localStorage.setItem("registrationEmail", data.data.email);
 
       toast.success("Email verified successfully.");
       onSuccess();
@@ -98,8 +104,8 @@ const RegisterStepOtp = ({ email, onSuccess }) => {
       </h1>
       <p className="mt-3 max-w-md text-gray-500">
         We've sent a 6-digit code to{" "}
-        <span className="font-medium text-gray-900">{email}</span>. Enter it
-        below to continue.
+        <span className="font-medium text-gray-900">{formData.email}</span>.
+        Enter it below to continue.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-10 max-w-md space-y-6">
@@ -135,7 +141,7 @@ const RegisterStepOtp = ({ email, onSuccess }) => {
             <button
               type="button"
               onClick={handleResendOtp}
-              className="font-medium text-indigo-600 hover:underline"
+              className="font-medium text-indigo-600 hover:underline hover:cursor-pointer"
             >
               Resend OTP
             </button>

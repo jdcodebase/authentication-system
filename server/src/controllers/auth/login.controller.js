@@ -49,10 +49,6 @@ export const login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid email or password.");
   }
 
-  if (!user.isEmailVerified) {
-    throw new ApiError(403, "Please verify your email before logging in.");
-  }
-
   const { accessToken, refreshToken } = generateAuthTokens(user._id);
 
   const refreshExpiresAt = new Date(
@@ -82,8 +78,7 @@ export const login = asyncHandler(async (req, res) => {
     name: user.name,
     email: user.email,
     phone: user.phone,
-    age: user.age,
-    isEmailVerified: user.isEmailVerified,
+    dateOfBirth: user.dateOfBirth,
   };
 
   if (deviceType === "web") {

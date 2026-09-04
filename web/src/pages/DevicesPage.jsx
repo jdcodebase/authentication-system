@@ -28,7 +28,6 @@ const DevicesPage = () => {
   const fetchDevices = async () => {
     try {
       const { data } = await getDevices();
-      console.log(data);
       setDevices(data.data.devices);
     } catch (error) {
       toast.error("Failed to load devices.");

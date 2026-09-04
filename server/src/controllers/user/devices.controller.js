@@ -5,8 +5,11 @@ import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";
 
 export const getDevices = asyncHandler(async (req, res) => {
-  const sessions = await RefreshToken.find({ user: req.user._id })
-    .select("-tokenHash") // never expose the hash, even hashed
+  const sessions = await RefreshToken.find({
+    user: req.user._id,
+    expiresAt: { $gt: new Date() },
+  })
+    .select("-tokenHash")
     .sort({ lastUsedAt: -1 });
 
   const devices = sessions.map((session) => ({
@@ -27,16 +30,14 @@ export const getDevices = asyncHandler(async (req, res) => {
 export const revokeDevice = asyncHandler(async (req, res) => {
   const { sessionId } = req.params;
 
-  const session = await RefreshToken.findOne({
+  const result = await RefreshToken.deleteOne({
     _id: sessionId,
-    user: req.user._id, // ensures a user can only revoke their OWN sessions
+    user: req.user._id,
   });
 
-  if (!session) {
+  if (result.deletedCount === 0) {
     throw new ApiError(404, "Device session not found.");
   }
-
-  await RefreshToken.deleteOne({ _id: sessionId });
 
   return res
     .status(200)

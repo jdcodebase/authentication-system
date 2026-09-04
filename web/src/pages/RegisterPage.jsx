@@ -6,7 +6,9 @@ import RegisterStepOtp from "../components/register/RegisterStepOtp";
 import RegisterStepProfile from "../components/register/RegisterStepProfile";
 
 const RegisterPage = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() =>
+    localStorage.getItem("registrationToken") ? 3 : 1,
+  );
   const [formData, setFormData] = useState({ name: "", email: "" });
 
   return (
@@ -25,10 +27,7 @@ const RegisterPage = () => {
         )}
 
         {step === 2 && (
-          <RegisterStepOtp
-            email={formData.email}
-            onSuccess={() => setStep(3)}
-          />
+          <RegisterStepOtp formData={formData} onSuccess={() => setStep(3)} />
         )}
 
         {step === 3 && <RegisterStepProfile />}

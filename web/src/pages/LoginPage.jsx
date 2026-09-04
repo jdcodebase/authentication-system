@@ -30,8 +30,6 @@ const LoginPage = () => {
         deviceName: getDeviceName(),
       });
 
-      // TODO: replace with AuthContext once built —
-      // for now just confirming the flow works end to end.
       setAuth({ user: data.data.user, accessToken: data.data.accessToken });
 
       toast.success("Login successful!");

@@ -2,12 +2,22 @@ import transporter from "../config/email.js";
 import env from "../config/env.js";
 
 export const sendOtpEmail = async ({ name, email, otp }) => {
+  const escapeHtml = (value) =>
+    value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  const safeName = escapeHtml(name);
+
   await transporter.sendMail({
     from: env.EMAIL_FROM,
     to: email,
     subject: "Verify your email - Authentication System",
 
-    text: `Hi ${name},
+    text: `Hi ${safeName},
 
 Your email verification OTP is: ${otp}
 
@@ -17,7 +27,7 @@ If you did not request this OTP, please ignore this email.`,
 
     html: `
       <div>
-        <h2>Hello ${name},</h2>
+        <h2>Hello ${safeName},</h2>
 
         <p>
           Please use the following OTP to verify your email address:

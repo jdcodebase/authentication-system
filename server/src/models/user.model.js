@@ -25,11 +25,9 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    age: {
-      type: Number,
+    dateOfBirth: {
+      type: Date,
       required: true,
-      min: 13,
-      max: 120,
     },
 
     password: {
@@ -38,14 +36,10 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false,
     },
-
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 

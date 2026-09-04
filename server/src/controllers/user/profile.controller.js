@@ -8,8 +8,7 @@ export const getProfile = asyncHandler(async (req, res) => {
     name: req.user.name,
     email: req.user.email,
     phone: req.user.phone,
-    age: req.user.age,
-    isEmailVerified: req.user.isEmailVerified,
+    dateOfBirth: req.user.dateOfBirth,
     createdAt: req.user.createdAt,
   };
 

@@ -1,12 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicOnlyRoute from "./components/PublicOnlyRoute";
+
 import LandingPage from "./pages/LandingPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import PublicOnlyRoute from "./components/PublicOnlyRoute";
 import DevicesPage from "./pages/DevicesPage";
 
 const App = () => {
@@ -15,14 +16,7 @@ const App = () => {
       <Toaster position="top-center" reverseOrder={false} />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <PublicOnlyRoute>
-              <LandingPage />
-            </PublicOnlyRoute>
-          }
-        />
+        <Route path="/" element={<LandingPage />} />
 
         <Route
           path="/register"

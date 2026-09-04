@@ -49,6 +49,7 @@ const otpSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 

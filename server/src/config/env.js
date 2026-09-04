@@ -2,7 +2,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const required = ["MONGODB_URI", "ACCESS_TOKEN_SECRET", "REFRESH_TOKEN_SECRET"];
+const required = [
+  "MONGODB_URI",
+  "OTP_SECRET",
+  "ACCESS_TOKEN_SECRET",
+  "REFRESH_TOKEN_SECRET",
+];
 
 for (const key of required) {
   if (!process.env[key]) {
@@ -25,13 +30,19 @@ const env = {
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
   REFRESH_TOKEN_EXPIRATION: process.env.REFRESH_TOKEN_EXPIRATION,
 
+  PASSWORD_RESET_TOKEN_SECRET: process.env.PASSWORD_RESET_TOKEN_SECRET,
+  PASSWORD_RESET_TOKEN_EXPIRATION: process.env.PASSWORD_RESET_TOKEN_EXPIRATION,
+
+  EMAIL_CHANGE_TOKEN_SECRET: process.env.EMAIL_CHANGE_TOKEN_SECRET,
+  EMAIL_CHANGE_TOKEN_EXPIRATION: process.env.EMAIL_CHANGE_TOKEN_EXPIRATION,
+
   EMAIL_HOST: process.env.EMAIL_HOST,
   EMAIL_PORT: process.env.EMAIL_PORT,
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASS: process.env.EMAIL_PASS,
   EMAIL_FROM: process.env.EMAIL_FROM,
 
-  NODE_ENV: process.env.NODE_ENV || "development",
+  NODE_ENV: process.env.NODE_ENV,
 };
 
 export default env;

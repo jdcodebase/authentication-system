@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
   if (err.code === 11000) {
     err.statusCode = 409;
 
-    const field = Object.keys(err.keyValue)[0];
+    const field = err.keyValue ? Object.keys(err.keyValue)[0] : "field";
     err.message = `${field} already exists.`;
     err.errors = [];
   }

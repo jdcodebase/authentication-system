@@ -43,6 +43,12 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Session has been revoked. Please log in again.");
   }
 
+  if (session.expiresAt.getTime() <= Date.now()) {
+    await RefreshToken.deleteOne({ _id: session._id });
+
+    throw new ApiError(401, "Refresh token has expired. Please log in again.");
+  }
+
   const user = await User.findById(payload.userId);
 
   if (!user) {
@@ -67,8 +73,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     name: user.name,
     email: user.email,
     phone: user.phone,
-    age: user.age,
-    isEmailVerified: user.isEmailVerified,
+    dateOfBirth: user.dateOfBirth,
   };
 
   if (session.deviceType === "web") {

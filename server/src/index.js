@@ -3,7 +3,7 @@ import app from "./app.js";
 import connectDB from "./config/db.js";
 import transporter from "./config/email.js";
 
-const PORT = env.PORT || 8000;
+const PORT = env.PORT;
 
 const startServer = async () => {
   try {
@@ -13,7 +13,6 @@ const startServer = async () => {
       console.log(`Server is running on port ${PORT}`);
     });
 
-    // Verify email in the background — never blocks server startup
     transporter
       .verify()
       .then(() => console.log("Email service is ready."))

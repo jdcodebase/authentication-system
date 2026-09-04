@@ -28,13 +28,11 @@ const DashboardPage = () => {
               <dd className="font-medium text-gray-900">{user?.phone}</dd>
             </div>
             <div className="flex justify-between border-b border-gray-100 pb-2">
-              <dt className="text-gray-500">Age</dt>
-              <dd className="font-medium text-gray-900">{user?.age}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-gray-500">Email Verified</dt>
-              <dd className="font-medium text-green-600">
-                {user?.isEmailVerified ? "Yes" : "No"}
+              <dt className="text-gray-500">Date of Birth</dt>
+              <dd className="font-medium text-gray-900">
+                {user?.dateOfBirth
+                  ? new Date(user.dateOfBirth).toLocaleDateString()
+                  : "—"}
               </dd>
             </div>
           </dl>

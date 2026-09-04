@@ -15,7 +15,6 @@ export const logout = asyncHandler(async (req, res) => {
 
     // Only deletes the session matching THIS exact token — other devices unaffected
     await RefreshToken.deleteOne({
-      user: req.user._id,
       tokenHash,
     });
   }

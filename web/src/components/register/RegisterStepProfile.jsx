@@ -8,14 +8,15 @@ import { useAuth } from "../../context/AuthContext";
 
 const RegisterStepProfile = () => {
   const navigate = useNavigate();
-  const registrationName = sessionStorage.getItem("registrationName");
+  const registrationName = localStorage.getItem("registrationName");
 
   const [profileData, setProfileData] = useState({
     phone: "",
-    age: "",
+    dateOfBirth: "",
     password: "",
     confirmPassword: "",
   });
+
   const [loading, setLoading] = useState(false);
 
   const { setAuth } = useAuth();
@@ -32,7 +33,7 @@ const RegisterStepProfile = () => {
       return;
     }
 
-    const registrationToken = sessionStorage.getItem("registrationToken");
+    const registrationToken = localStorage.getItem("registrationToken");
     if (!registrationToken) {
       toast.error("Session expired. Please start over.");
       navigate("/register");
@@ -42,12 +43,12 @@ const RegisterStepProfile = () => {
     setLoading(true);
 
     try {
-      await completeRegistration(
+      const { data } = await completeRegistration(
         {
           name: registrationName,
-          email: sessionStorage.getItem("registrationEmail"),
+          email: localStorage.getItem("registrationEmail"),
           phone: profileData.phone,
-          age: Number(profileData.age),
+          dateOfBirth: profileData.dateOfBirth,
           password: profileData.password,
           confirmPassword: profileData.confirmPassword,
           deviceId: getDeviceId(),
@@ -59,13 +60,24 @@ const RegisterStepProfile = () => {
 
       setAuth({ user: data.data.user, accessToken: data.data.accessToken });
 
-      sessionStorage.removeItem("registrationToken");
-      sessionStorage.removeItem("registrationName");
-      sessionStorage.removeItem("registrationEmail");
+      localStorage.removeItem("registrationToken");
+      localStorage.removeItem("registrationName");
+      localStorage.removeItem("registrationEmail");
 
       toast.success("Registration successful!");
+
       navigate("/dashboard");
     } catch (error) {
+      if (error.response?.status === 401) {
+        localStorage.removeItem("registrationToken");
+        localStorage.removeItem("registrationName");
+        localStorage.removeItem("registrationEmail");
+
+        toast.error("Registration session expired. Please start again.");
+        navigate("/register");
+        return;
+      }
+
       toast.error(error.response?.data?.message || "Registration failed.");
     } finally {
       setLoading(false);
@@ -75,7 +87,7 @@ const RegisterStepProfile = () => {
   return (
     <>
       <h1 className="text-4xl font-extrabold text-gray-900">
-        Hi {registrationName || "there"} 👋
+        Hi {registrationName || "there"}
       </h1>
       <p className="mt-3 max-w-md text-gray-500">
         Just a few more details to finish setting up your account.
@@ -103,22 +115,20 @@ const RegisterStepProfile = () => {
 
         <div>
           <label
-            htmlFor="age"
+            htmlFor="dateOfBirth"
             className="mb-2 block text-sm font-medium text-gray-700"
           >
-            Age
+            Date of Birth
           </label>
+
           <input
-            id="age"
-            type="number"
-            name="age"
-            value={profileData.age}
+            id="dateOfBirth"
+            type="date"
+            name="dateOfBirth"
+            value={profileData.dateOfBirth}
             onChange={handleChange}
             required
-            min={13}
-            max={120}
-            placeholder="25"
-            className="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-2.5 text-gray-900 outline-none placeholder:text-gray-400 focus:border-indigo-600"
+            className="w-full border-0 border-b border-gray-300 bg-transparent px-0 py-2.5 text-gray-900 outline-none focus:border-indigo-600"
           />
         </div>
 

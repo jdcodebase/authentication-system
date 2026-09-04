@@ -237,7 +237,7 @@ export const completeRegistration = asyncHandler(async (req, res) => {
     name: bodyName,
     email: bodyEmail,
     phone,
-    age,
+    dateOfBirth,
     password,
     confirmPassword,
     deviceId,
@@ -256,10 +256,10 @@ export const completeRegistration = asyncHandler(async (req, res) => {
     );
   }
 
-  if (!phone || !age || !password || !confirmPassword) {
+  if (!phone || !dateOfBirth || !password || !confirmPassword) {
     throw new ApiError(
       400,
-      "Phone, age, password, and confirm password are required.",
+      "Phone, dateOfBirth, password, and confirm password are required.",
     );
   }
 
@@ -284,9 +284,8 @@ export const completeRegistration = asyncHandler(async (req, res) => {
     name,
     email,
     phone,
-    age,
+    dateOfBirth,
     password, // hashed via User model's pre("save") hook
-    isEmailVerified: true,
   });
 
   const { accessToken, refreshToken } = generateAuthTokens(user._id);
@@ -313,8 +312,7 @@ export const completeRegistration = asyncHandler(async (req, res) => {
     name: user.name,
     email: user.email,
     phone: user.phone,
-    age: user.age,
-    isEmailVerified: user.isEmailVerified,
+    dateOfBirth: user.dateOfBirth,
   };
 
   if (deviceType === "web") {
