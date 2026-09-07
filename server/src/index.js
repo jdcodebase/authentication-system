@@ -1,6 +1,8 @@
-// src/index.js
 import dns from "node:dns";
-dns.setDefaultResultOrder("ipv4first"); // must run before connectDB() / transporter.verify() fire
+import net from "node:net";
+
+dns.setDefaultResultOrder("ipv4first");
+net.setDefaultAutoSelectFamily(false);
 
 import env from "./config/env.js";
 import app from "./app.js";
