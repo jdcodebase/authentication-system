@@ -77,7 +77,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   };
 
   if (session.deviceType === "web") {
-    res.cookie("refreshToken", refreshToken, {
+    res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
       sameSite: env.NODE_ENV === "production" ? "none" : "lax",
