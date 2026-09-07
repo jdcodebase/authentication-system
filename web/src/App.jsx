@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import DevicesPage from "./pages/DevicesPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 const App = () => {
   return (
@@ -51,6 +52,15 @@ const App = () => {
             <ProtectedRoute>
               <DevicesPage />
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <PublicOnlyRoute>
+              <ForgotPasswordPage />
+            </PublicOnlyRoute>
           }
         />
       </Routes>

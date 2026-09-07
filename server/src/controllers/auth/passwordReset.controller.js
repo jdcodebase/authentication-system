@@ -10,6 +10,7 @@ import env from "../../config/env.js";
 import ApiError from "../../utils/ApiError.js";
 import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";
+import RefreshToken from "../../models/refreshToken.model.js";
 
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
@@ -246,6 +247,7 @@ export const verifyForgotPasswordOtp = asyncHandler(async (req, res) => {
 
 export const resetPassword = asyncHandler(async (req, res) => {
   const authHeader = req.headers.authorization;
+  console.log(authHeader);
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new ApiError(401, "Password reset token is missing.");

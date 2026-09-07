@@ -76,7 +76,7 @@ router.post("/forgot-password/send-otp", otpLimiter, sendForgotPasswordOtp);
 
 router.post("/forgot-password/verify-otp", otpLimiter, verifyForgotPasswordOtp);
 
-router.post("/forgot-password/reset", resetPassword);
+router.post("/forgot-password/reset-password", resetPassword);
 
 router.post(
   "/change-email/send-old-otp",

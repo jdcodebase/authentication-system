@@ -21,3 +21,16 @@ export const getDevices = () => api.get("/users/devices");
 
 export const revokeDevice = (sessionId) =>
   api.delete(`/users/devices/${sessionId}`);
+
+export const sendForgotPasswordOtp = (data) =>
+  api.post("/auth/forgot-password/send-otp", data);
+
+export const verifyForgotPasswordOtp = (data) =>
+  api.post("/auth/forgot-password/verify-otp", data);
+
+export const resetPassword = (data, passwordResetToken) =>
+  api.post("/auth/forgot-password/reset-password", data, {
+    headers: {
+      Authorization: `Bearer ${passwordResetToken}`,
+    },
+  });
