@@ -80,7 +80,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: parseExpiryToMs(env.REFRESH_TOKEN_EXPIRATION),
     });
 
