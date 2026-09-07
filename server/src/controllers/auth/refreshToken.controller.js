@@ -77,10 +77,10 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   };
 
   if (session.deviceType === "web") {
-    res.cookie("refreshToken", newRefreshToken, {
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
-      sameSite: env.NODE_ENV === "production" ? "None" : "Lax",
+      sameSite: env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: parseExpiryToMs(env.REFRESH_TOKEN_EXPIRATION),
     });
 
