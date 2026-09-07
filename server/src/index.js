@@ -1,3 +1,7 @@
+// src/index.js
+import dns from "node:dns";
+dns.setDefaultResultOrder("ipv4first"); // must run before connectDB() / transporter.verify() fire
+
 import env from "./config/env.js";
 import app from "./app.js";
 import connectDB from "./config/db.js";
@@ -5,7 +9,6 @@ import transporter from "./config/email.js";
 
 const PORT = env.PORT;
 
-// Fire-and-forget: verifies in background, never blocks or crashes startup
 const verifyEmailTransporter = () => {
   transporter
     .verify()
