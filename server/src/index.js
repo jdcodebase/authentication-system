@@ -5,24 +5,21 @@ import transporter from "./config/email.js";
 
 const PORT = env.PORT;
 
-const verifyEmailService = () => {
-  return new Promise((resolve, reject) => {
-    transporter.verify((error, success) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(success);
-      }
-    });
-  });
+// Fire-and-forget: verifies in background, never blocks or crashes startup
+const verifyEmailTransporter = () => {
+  transporter
+    .verify()
+    .then(() => console.log("Email transporter verified successfully."))
+    .catch((error) =>
+      console.error("Email transporter verification failed:", error.message),
+    );
 };
 
 const startServer = async () => {
   try {
     await connectDB();
 
-    await verifyEmailService();
-    console.log("Email service is ready.");
+    verifyEmailTransporter();
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
