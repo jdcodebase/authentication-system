@@ -103,7 +103,10 @@ export const sendRegistrationOtp = asyncHandler(async (req, res) => {
       otp,
     });
   } catch (error) {
+    console.error("OTP EMAIL ERROR:", error);
+
     await OTP.deleteOne({ _id: otpDoc._id });
+
     throw new ApiError(500, "Failed to send OTP email. Please try again.");
   }
 
