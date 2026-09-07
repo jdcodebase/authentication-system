@@ -11,13 +11,13 @@ import transporter from "./config/email.js";
 
 const PORT = env.PORT;
 
-const verifyEmailTransporter = () => {
-  transporter
-    .verify()
-    .then(() => console.log("Email transporter verified successfully."))
-    .catch((error) =>
-      console.error("Email transporter verification failed:", error.message),
-    );
+const verifyEmailTransporter = async () => {
+  try {
+    await transporter.verify();
+    console.log("Email transporter verified successfully.");
+  } catch (error) {
+    console.error("Email transporter verification failed:", error.message);
+  }
 };
 
 const startServer = async () => {
