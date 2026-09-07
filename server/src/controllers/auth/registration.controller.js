@@ -319,7 +319,7 @@ export const completeRegistration = asyncHandler(async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: parseExpiryToMs(env.REFRESH_TOKEN_EXPIRATION),
     });
 
