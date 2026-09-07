@@ -18,11 +18,8 @@ const required = [
   "PASSWORD_RESET_TOKEN_SECRET",
   "PASSWORD_RESET_TOKEN_EXPIRATION",
 
-  "EMAIL_HOST",
-  "EMAIL_PORT",
   "EMAIL_USER",
   "EMAIL_PASS",
-  "EMAIL_FROM",
 ];
 
 for (const key of required) {
