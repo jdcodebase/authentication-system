@@ -1,9 +1,3 @@
-import dns from "node:dns";
-import net from "node:net";
-
-dns.setDefaultResultOrder("ipv4first");
-net.setDefaultAutoSelectFamily(false);
-
 import env from "./config/env.js";
 import app from "./app.js";
 import connectDB from "./config/db.js";
