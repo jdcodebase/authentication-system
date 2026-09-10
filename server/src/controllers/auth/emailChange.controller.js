@@ -11,6 +11,7 @@ import ApiResponse from "../../utils/ApiResponse.js";
 import asyncHandler from "../../utils/asyncHandler.js";
 import User from "../../models/user.model.js";
 
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 const RESEND_COOLDOWN_MS = 60 * 1000;
 const OTP_EXPIRY_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 5;

@@ -34,3 +34,25 @@ export const resetPassword = (data, passwordResetToken) =>
       Authorization: `Bearer ${passwordResetToken}`,
     },
   });
+
+export const changePassword = (data) => api.post("/auth/change-password", data);
+
+export const sendOldEmailChangeOtp = () =>
+  api.post("/auth/change-email/send-old-otp");
+
+export const verifyOldEmailChangeOtp = (data) =>
+  api.post("/auth/change-email/verify-old-otp", data);
+
+export const sendNewEmailChangeOtp = (data, emailChangeToken) =>
+  api.post("/auth/change-email/send-new-otp", data, {
+    headers: {
+      Authorization: `Bearer ${emailChangeToken}`,
+    },
+  });
+
+export const verifyNewEmailChangeOtp = (data, emailChangeToken) =>
+  api.post("/auth/change-email/verify-new-otp", data, {
+    headers: {
+      Authorization: `Bearer ${emailChangeToken}`,
+    },
+  });

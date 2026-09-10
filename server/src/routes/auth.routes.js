@@ -70,7 +70,7 @@ router.post("/refresh-token", refreshAccessToken);
 router.post("/logout", logout);
 router.post("/logout-all", verifyAccessToken, logoutAllDevices);
 
-router.patch("/change-password", verifyAccessToken, changePassword);
+router.post("/change-password", verifyAccessToken, changePassword);
 
 router.post("/forgot-password/send-otp", otpLimiter, sendForgotPasswordOtp);
 

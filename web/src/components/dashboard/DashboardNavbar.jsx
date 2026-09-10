@@ -44,7 +44,7 @@ const DashboardNavbar = () => {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 transition hover:bg-gray-100"
+            className="flex items-center gap-2 rounded-full py-1 pl-1 pr-3 transition hover:bg-gray-100 hover:*:cursor-pointer"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-sm font-semibold text-white">
               {initials || "U"}
@@ -71,7 +71,7 @@ const DashboardNavbar = () => {
                   setOpen(false);
                   navigate("/profile");
                 }}
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 hover:cursor-pointer"
               >
                 Profile
               </button>
@@ -81,7 +81,7 @@ const DashboardNavbar = () => {
                   setOpen(false);
                   navigate("/devices");
                 }}
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 hover:cursor-pointer"
               >
                 Manage Devices
               </button>
@@ -90,7 +90,7 @@ const DashboardNavbar = () => {
 
               <button
                 onClick={handleLogout}
-                className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 hover:cursor-pointer"
               >
                 Logout
               </button>

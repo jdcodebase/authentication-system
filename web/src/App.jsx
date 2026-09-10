@@ -10,6 +10,9 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import DevicesPage from "./pages/DevicesPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import Profile from "./pages/Profile";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ChangeEmailPage from "./pages/ChangeEmailPage";
 
 const App = () => {
   return (
@@ -61,6 +64,33 @@ const App = () => {
             <PublicOnlyRoute>
               <ForgotPasswordPage />
             </PublicOnlyRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute>
+              <ChangePasswordPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/change-email"
+          element={
+            <ProtectedRoute>
+              <ChangeEmailPage />
+            </ProtectedRoute>
           }
         />
       </Routes>
